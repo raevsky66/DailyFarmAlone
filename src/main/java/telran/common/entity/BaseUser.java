@@ -6,12 +6,13 @@ import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
+import org.springframework.context.annotation.Lazy;
+
 @Data
 @NoArgsConstructor
 @MappedSuperclass
 public abstract class BaseUser {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
     private String email;

@@ -10,5 +10,5 @@ public class CustomerDto {
 	    private String email;
 	    private String phone;
 	    private Boolean isVerified;
-	//    private String password;
+	    private String password;
 }

@@ -14,8 +14,8 @@ public class DailyFarmApplication {
 	public static void main(String[] args) {
 		//SpringApplication.run(DailyFarmApplication.class, args);
 	    ConfigurableApplicationContext ctx = SpringApplication.run(DailyFarmApplication.class, args);
-	    JPQLQueryConsole console = ctx.getBean(JPQLQueryConsole.class);
-	    console.run();
+//	    JPQLQueryConsole console = ctx.getBean(JPQLQueryConsole.class);
+//	    console.run();
 	}
 
 }

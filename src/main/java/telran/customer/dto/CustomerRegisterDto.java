@@ -8,5 +8,5 @@ public class CustomerRegisterDto {
     private String lastName;
     private String email;
     private String phone;
-  //  private String password; 
+    private String password; 
 }

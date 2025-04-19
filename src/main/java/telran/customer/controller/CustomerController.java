@@ -7,9 +7,12 @@ import java.util.UUID;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import telran.customer.dto.CustomerDto;
 import telran.customer.dto.CustomerRegisterDto;
@@ -22,7 +25,7 @@ public class CustomerController {
 	private final CustomerService customerService;
 
 	@PostMapping(CUSTOMER_REGISTER)
-	public ResponseEntity<CustomerDto> registerCustomer(CustomerRegisterDto customerRegisterDto) {
+	public ResponseEntity<CustomerDto> registerCustomer(@Valid @RequestBody CustomerRegisterDto customerRegisterDto) {
 		System.out.println("Registering customer: " + customerRegisterDto);
 		System.out.println("UUID: " + UUID.randomUUID());
 		CustomerDto response = customerService.registerCustomer(customerRegisterDto);

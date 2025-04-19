@@ -41,6 +41,7 @@ public class ErrorController {  //extends ResponseEntityExceptionHandler {
 	 */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Object> myHandler(MethodArgumentNotValidException ex, WebRequest request) {
+    	
         Map<String, String> errors = new HashMap<>();
         ex.getAllErrors().forEach((error) -> {
             String fieldName = (error instanceof FieldError) ? ((FieldError) error).getField(): "<common>";
@@ -50,8 +51,7 @@ public class ErrorController {  //extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
     
-    // Since Spring 6.1 if annotation @Validated is not used 
-	@ExceptionHandler(HandlerMethodValidationException.class)
+    @ExceptionHandler(HandlerMethodValidationException.class)
 	ResponseEntity<Object> methodArgumentNotValidHandler(HandlerMethodValidationException ex) {
         Map<String, String> errors = new HashMap<>();
         ex.getAllErrors().forEach((error) -> {
@@ -62,14 +62,6 @@ public class ErrorController {  //extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
 	}
 
-	// This exception occurs only if annotation @Validated is used (optional after Spring 6.1, see above)
-//	@ExceptionHandler(value = { ConstraintViolationException.class }) // actually list of Throwable types
-//	public ResponseEntity<Object> myHandler2(ConstraintViolationException ex, WebRequest request) {
-//		String errMsg = HttpStatus.BAD_REQUEST.getReasonPhrase();
-//		MyErrorData errorResponse = new MyErrorData(ex.getMessage(), LocalDateTime.now(), errMsg);
-//		return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
-//	}
-	
 	@ExceptionHandler(value = { Exception.class }) // default handler for the rest of Exceptions
 	public ResponseEntity<Object> myHandler3(Exception ex, WebRequest request) {
 		String errMsg = HttpStatus.BAD_REQUEST.getReasonPhrase();

@@ -1,13 +1,14 @@
 package telran.customer.controller;
 
+import static telran.api.ApiConstants.CUSTOMER_LOGIN;
 import static telran.api.ApiConstants.CUSTOMER_REGISTER;
+import static telran.api.ApiConstants.CUSTOMER_REFRESH_TOKEN;
 
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,8 +16,12 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import telran.customer.dto.CustomerDto;
+import telran.customer.dto.CustomerLoginDto;
 import telran.customer.dto.CustomerRegisterDto;
+import telran.customer.dto.TokenRefreshRequest;
+import telran.customer.dto.TokenResponseDto;
 import telran.customer.service.CustomerService;
+
 
 @Tag(name = "Customer API", description = "Methods for customers")
 @RestController
@@ -32,7 +37,18 @@ public class CustomerController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
 	}
 
-//	@GetMapping(CUSTOMER_CURRENT)
+	@PostMapping(CUSTOMER_LOGIN)
+	public ResponseEntity<TokenResponseDto> loginCustomer(@Valid @RequestBody CustomerLoginDto loginRequestDto) {
+		return customerService.loginCustomer(loginRequestDto);
+	}
+	
+	@PostMapping(CUSTOMER_REFRESH_TOKEN)
+	public ResponseEntity<TokenResponseDto> refreshToken(@Valid @RequestBody TokenRefreshRequest request) {
+	    TokenResponseDto response = customerService.refreshToken(request.getRefreshToken());
+	    return ResponseEntity.ok(response);
+	}
+	
+	//@GetMapping(CUSTOMER_CURRENT)
 //	public ResponseEntity<CustomerDto> getCurrentCustomer(Principal principal) {
 //		return customerService.getUserByEmail(principal.getName());
 //	}

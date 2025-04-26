@@ -22,7 +22,6 @@ class MyErrorData {
 	public Object errorMessage;
 	public LocalDateTime occurredOn;
 	public String status;
-	// …
 }
 
 /**
@@ -61,7 +60,27 @@ public class ErrorController {  //extends ResponseEntityExceptionHandler {
         });
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
 	}
-
+   
+    @ExceptionHandler(CustomerAlreadyExistsException.class)
+    public ResponseEntity<MyErrorData> handleCustomerAlreadyExistsException(CustomerAlreadyExistsException ex) {
+        MyErrorData errorResponse = new MyErrorData(
+            ex.getMessage(),
+            LocalDateTime.now(),
+            HttpStatus.CONFLICT.getReasonPhrase()
+        );
+        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+    }
+    
+    @ExceptionHandler(InvalidTokenException.class)
+    public ResponseEntity<MyErrorData> handleInvalidTokenException(InvalidTokenException ex) {
+        MyErrorData errorResponse = new MyErrorData(
+            ex.getMessage(),
+            LocalDateTime.now(),
+            HttpStatus.UNAUTHORIZED.getReasonPhrase()
+        );
+        return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+    }
+    
 	@ExceptionHandler(value = { Exception.class }) // default handler for the rest of Exceptions
 	public ResponseEntity<Object> myHandler3(Exception ex, WebRequest request) {
 		String errMsg = HttpStatus.BAD_REQUEST.getReasonPhrase();
